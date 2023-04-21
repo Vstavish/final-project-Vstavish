@@ -18,6 +18,7 @@ CREATE TABLE inspections (
     address_line_1 VARCHAR(255)
 )
 """
+cursor.execute(create_table_sql)
 
 url = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$order=inspection_date DESC&$limit=2000"
 
@@ -25,7 +26,33 @@ response = requests.get(url)
 
 if response.status_code == 200:
     data = json.loads(response.text)
+
     for row in data:
         print(row["establishment_id"], row["name"], row["category"], row["inspection_date"], row["inspection_results"], row["zip"], row["address_line_1"])
+
+        # insert each row of data into the database
+        insert_sql = """
+        INSERT INTO inspections
+        (establishment_id, name, category, inspection_date, inspection_results, zip, address_line_1)
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?)
+        """
+        values = (
+            row["establishment_id"],
+            row["name"],
+            row["category"],
+            row["inspection_date"],
+            row["inspection_results"],
+            row["zip"],
+            row["address_line_1"]
+        )
+        cursor.execute(insert_sql, values)
+    
+    # commit changes to the database
+    conn.commit()
+    print(f"Inserted {len(data)} rows into the database.")
 else:
     print("Failed to retrieve data")
+
+# close the database connection
+conn.close()
