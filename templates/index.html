@@ -4,30 +4,43 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
     </head>
     <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Food inspections and violations in Maryland</a>
-    </nav>
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Restaurants with the most violations observed in Maryland</h1>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">Food inspections and violations in Maryland</a>
+        </nav>
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Restaurants with the most critical violations observed in Maryland</h1>
             </div>
-            </div>
-            <h2>Top 10 Establishments by Inspection Count</h2>
-    <table>
-    <tr>
-        <th>Establishment ID</th>
-        <th>Count</th>
-        <th>Name</th>
-        <th>Zip</th>
-        <th>Owner</th>
-    </tr>
-    {% for row in rows %}
-    <tr>
-        <td>{{ row[0] }}</td>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
-        <td>{{ row[4] }}</td>
-    </tr>
-    {% endfor %}
-    </table>
+        </div>
+        <form action="/" method="post">
+            <input type="text" name="search_query" placeholder="Search by name, owner, zip, or address">
+            <button type="submit">Search</button>
+        </form>
+        {% if search_query %}
+        <h2>Search results for "{{ search_query }}"</h2>
+        {% endif %}
+        {% if rows %}
+        <h2>Top 10 Establishments by Inspection Count</h2>
+        <table>
+            <tr>
+                <th>Establishment ID</th>
+                <th>Name</th>
+                <th>Count</th>
+                <th>Zip</th>
+                <th>Owner</th>
+            </tr>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No results found.</p>
+        {% endif %}
+    </body>
+</html>
