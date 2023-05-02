@@ -39,8 +39,8 @@
             </tr>
             {% endfor %}
         </table>
-        {% else %}
-        <p>No results found.</p>
+        {% elif not search_query %}
+        <h2>Top 10 Establishments by Inspection Count</h2>
         {% endif %}
     </body>
 </html>
