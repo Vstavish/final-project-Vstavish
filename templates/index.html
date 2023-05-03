@@ -13,7 +13,7 @@
             </div>
         </div>
         <form action="/" method="post">
-            <input type="text" name="search_query" placeholder="Search by name, owner, zip, or address">
+            <input type="text" name="search_query" placeholder="Search by name, owner, zip, or address" style="width:20%;">
             <button type="submit">Search</button>
         </form>
         {% if search_query %}
@@ -21,13 +21,14 @@
         {% endif %}
         {% if rows %}
         <h2>Top 10 Establishments by Inspection Count</h2>
-        <table>
+        <table class="table">
+
             <tr>
-                <th>Establishment ID</th>
-                <th>Name</th>
-                <th>Count</th>
-                <th>Zip</th>
-                <th>Owner</th>
+                <th class="text-wrap">Establishment ID</th>
+                <th class="text-wrap">Name</th>
+                <th class="text-wrap">Count</th>
+                <th class="text-wrap">Zip</th>
+                <th class="text-wrap">Owner</th>
             </tr>
             {% for row in rows %}
             <tr>

@@ -21,7 +21,7 @@ CREATE TABLE inspections (
 """
 #cursor.execute(create_table_sql)
 
-# pull the data from the website. I'm using ?$order=inspection_date DESC to make the output chronological and I;m using $limit=2000 for no particular reason but that is what signifies how many rows to pull from the API
+# pull the data from the website. I'm using ?$order=inspection_date DESC to make the output chronological and I'm using $limit=2000 for no particular reason but that is what signifies how many rows to pull from the API
 url = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$order=inspection_date DESC&$limit=2000"
 
 response = requests.get(url)
