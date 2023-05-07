@@ -16,13 +16,13 @@ CREATE TABLE inspections (
     inspection_results VARCHAR(255),
     zip VARCHAR(255),
     address_line_1 VARCHAR(255),
-    owner VARCHAR(255)
+    owner VARCHAR(255) NULL
 )
 """
-#cursor.execute(create_table_sql)
+cursor.execute(create_table_sql)
 
-# pull the data from the website. I'm using ?$order=inspection_date DESC to make the output chronological and I'm using $limit=2000 for no particular reason but that is what signifies how many rows to pull from the API
-url = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$order=inspection_date DESC&$limit=2000"
+# pull the data from the website. I'm using ?$order=inspection_date DESC to make the output chronological and I'm using  for no particular reason but that is what signifies how many rows to pull from the API
+url = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$limit=40000"
 
 response = requests.get(url)
 
@@ -30,7 +30,8 @@ if response.status_code == 200:
     data = json.loads(response.text)
 # Here I'm giving a heads up which columns I'd like to grab. Right now I'm just grabbing basic information, but once I understand the database more I plan to also pull the columns that detail exactly which type of violation a restauarant did/didn't have. That will be an additional ~16 rows unfortunately lol
     for row in data:
-        print(row["establishment_id"], row["name"], row["category"], row["inspection_date"], row["inspection_results"], row["zip"], row["address_line_1"], row["owner"])
+        owner = row['owner'] or None
+        print(row["establishment_id"], row["name"], row["category"], row["inspection_date"], row["inspection_results"], row["zip"], row["address_line_1"], owner)
 
         # insert each row of pulled data into the database
         insert_sql = """
