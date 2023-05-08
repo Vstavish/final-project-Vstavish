@@ -80,8 +80,11 @@ def establishment(establishment_id):
         num_inspections = len(rows)
         num_critical_violations = sum('critical violations observed' in r[3].lower() for r in rows)
         num_compliant = sum('compliant - no health risk' in r[3].lower() for r in rows)
-        num_non_compliant =sum('non-compliant - violations observed' in r[3].lower() for r in rows)
-        return render_template('establishment.html', establishment_id=establishment_id, name=name, category=category, rows=rows, zip_code=zip_code, address=address, owner=owner, num_inspections=num_inspections, num_critical_violations=num_critical_violations, num_compliant=num_compliant, num_non_compliant=num_non_compliant)
+        num_non_compliant = sum('non-compliant - violations observed' in r[3].lower() for r in rows)
+        num_outstanding = sum('compliance schedule - outstanding' in r[3].lower() for r in rows)
+        num_completed = sum('compliance schedule - completed' in r[3].lower() for r in rows)
+        null_results = sum('----' in r[3].lower() for r in rows)
+        return render_template('establishment.html', establishment_id=establishment_id, name=name, category=category, rows=rows, zip_code=zip_code, address=address, owner=owner, num_inspections=num_inspections, num_critical_violations=num_critical_violations, num_compliant=num_compliant, num_non_compliant=num_non_compliant, null_results=null_results)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
