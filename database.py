@@ -22,7 +22,7 @@ CREATE TABLE inspections (
 cursor.execute(create_table_sql)
 
 # pull the data from the website. I'm using ?$order=inspection_date DESC to make the output chronological and I'm using  for no particular reason but that is what signifies how many rows to pull from the API
-url = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$limit=40000"
+url = "https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json?$limit=50000&$where=inspection_date>'2016-05-06T00:00:00.000'"
 
 response = requests.get(url)
 
@@ -30,8 +30,22 @@ if response.status_code == 200:
     data = json.loads(response.text)
 # Here I'm giving a heads up which columns I'd like to grab. Right now I'm just grabbing basic information, but once I understand the database more I plan to also pull the columns that detail exactly which type of violation a restauarant did/didn't have. That will be an additional ~16 rows unfortunately lol
     for row in data:
-        owner = row['owner'] or None
-        print(row["establishment_id"], row["name"], row["category"], row["inspection_date"], row["inspection_results"], row["zip"], row["address_line_1"], owner)
+        try:
+            owner = row['owner']
+        except KeyError:
+            owner = None
+
+        try:
+            zip_code = row['zip']
+        except KeyError:
+            zip_code = None
+
+        try:
+            address_line_1 = row['address_line_1']
+        except KeyError:
+            address_line_1 = None
+
+        print(row["establishment_id"], row["name"], row["category"], row["inspection_date"], row["inspection_results"], zip_code, address_line_1, owner)
 
         # insert each row of pulled data into the database
         insert_sql = """
@@ -46,9 +60,9 @@ if response.status_code == 200:
     row["category"].lower(),
     row["inspection_date"],
     row["inspection_results"].lower(),
-    row["zip"],
-    row["address_line_1"].lower(),
-    row["owner"].lower()
+    zip_code.lower() if zip_code else zip_code,
+    address_line_1.lower() if address_line_1 else address_line_1,
+    owner.lower() if owner else owner
 )
         cursor.execute(insert_sql, values)
     

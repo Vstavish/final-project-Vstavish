@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Establishment {{ establishment_id }}</title>
+</head>
+<body>
+  <h1>Establishment {{ establishment_id }}</h1>
+  <table>
+    <tr>
+      <th>Name</th>
+      <td>{{ rows[0][0] }}</td>
+    </tr>
+    <tr>
+      <th>Category</th>
+      <td>{{ rows[0][1] }}</td>
+    </tr>
+    <tr>
+      <th>Inspection Date</th>
+      <td>{{ rows[0][2] }}</td>
+    </tr>
+    <tr>
+      <th>Inspection Results</th>
+      <td>{{ rows[0][3] }}</td>
+    </tr>
+    <tr>
+      <th>Zip</th>
+      <td>{{ rows[0][4] }}</td>
+    </tr>
+    <tr>
+      <th>Address</th>
+      <td>{{ rows[0][5] }}</td>
+    </tr>
+    <tr>
+      <th>Owner</th>
+      <td>{{ rows[0][6] }}</td>
+    </tr>
+  </table>
+</body>
+</html>

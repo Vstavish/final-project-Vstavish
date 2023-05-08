@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import sqlite3
 
 app = Flask(__name__)
@@ -58,6 +58,23 @@ def index():
         conn.close()
         return render_template('index.html', rows=results)
 
+@app.route("/establishment/<establishment_id>")
+def establishment(establishment_id):
+    conn = sqlite3.connect('inspections.db')
+    query = """
+    SELECT name, category, inspection_date, inspection_results, zip, address_line_1, owner
+    FROM inspections
+    WHERE establishment_id = ?
+    """
+    cursor = conn.execute(query, (establishment_id,))
+    results = cursor.fetchall()
+    conn.close()
+    if len(results) == 0:
+        # Redirect the user to the index page if the establishment ID is not found
+        return redirect("/")
+    else:
+        # Render a template with the establishment information
+        return render_template('establishment.html', establishment_id=establishment_id, rows=results)
 
 if __name__ == "__main__":
     app.run(port=8000)
