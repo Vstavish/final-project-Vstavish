@@ -6,34 +6,31 @@
 <body>
   <h1>Establishment {{ establishment_id }}</h1>
   <table>
-    <tr>
-      <th>Name</th>
-      <td>{{ rows[0][0] }}</td>
-    </tr>
-    <tr>
-      <th>Category</th>
-      <td>{{ rows[0][1] }}</td>
-    </tr>
-    <tr>
-      <th>Inspection Date</th>
-      <td>{{ rows[0][2] }}</td>
-    </tr>
-    <tr>
-      <th>Inspection Results</th>
-      <td>{{ rows[0][3] }}</td>
-    </tr>
-    <tr>
-      <th>Zip</th>
-      <td>{{ rows[0][4] }}</td>
-    </tr>
-    <tr>
-      <th>Address</th>
-      <td>{{ rows[0][5] }}</td>
-    </tr>
-    <tr>
-      <th>Owner</th>
-      <td>{{ rows[0][6] }}</td>
-    </tr>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Inspection Date</th>
+        <th>Inspection Results</th>
+        <th>ZIP</th>
+        <th>Address</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
   </table>
+  
 </body>
 </html>
