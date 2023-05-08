@@ -8,11 +8,11 @@
             <a class="navbar-brand" href="/">Food inspections and violations in Maryland</a>
         </nav>
         <div class="jumbotron">
-            <div class="container">
-                <h1>Restaurants by establishment ID</h1>
-            </div>
-        </div>
-  <h1>Establishment {{ establishment_id }}</h1>
+          <div class="container">
+              <h1>Establishment {{ establishment_id }}</h1>
+              <p>This establishment has had {{ num_inspections }} inspections, of which {{ num_critical_violations }} were critical violations.</p>
+          </div>
+      </div>
   <table class="table">
     <thead>
       <tr>

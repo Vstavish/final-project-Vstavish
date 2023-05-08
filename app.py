@@ -76,8 +76,10 @@ def establishment(establishment_id):
         return redirect("/")
     else:
         # Render a template with the establishment information in a table
-        return render_template('establishment.html', establishment_id=establishment_id, rows=rows)
-
+        name, category, _, _, zip_code, address, owner = rows[0]
+        num_inspections = len(rows)
+        num_critical_violations = sum('critical violations observed' in r[3].lower() for r in rows)
+        return render_template('establishment.html', establishment_id=establishment_id, name=name, category=category, rows=rows, zip_code=zip_code, address=address, owner=owner, num_inspections=num_inspections, num_critical_violations=num_critical_violations)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
