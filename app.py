@@ -66,6 +66,7 @@ def establishment(establishment_id):
     SELECT name, category, inspection_date, inspection_results, zip, address_line_1, owner
     FROM inspections
     WHERE establishment_id = ?
+    ORDER BY inspection_date DESC
     """
     cursor = conn.execute(query, (establishment_id,))
     rows = cursor.fetchall()
@@ -79,7 +80,8 @@ def establishment(establishment_id):
 
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(debug=True, port=8000)
+
 
 
 
