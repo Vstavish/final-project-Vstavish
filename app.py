@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -45,18 +46,25 @@ def index():
     else:
         # Show the default index page
         conn = sqlite3.connect('inspections.db')
+        # Calculate the date 365 days ago from today
+        past_date = datetime.now() - timedelta(days=365)
+        past_date_str = past_date.strftime('%Y-%m-%d')
+
         query = """
         SELECT establishment_id, name, COUNT(*) AS count, zip, owner
         FROM inspections
         WHERE inspection_results LIKE '%critical violations observed%'
+        AND inspection_date >= ?
         GROUP BY establishment_id
         ORDER BY count DESC
         LIMIT 10;
         """
-        cursor = conn.execute(query)
+
+        cursor = conn.execute(query, (past_date_str,))
         results = cursor.fetchall()
+        num_restaurants = len(results)
         conn.close()
-        return render_template('index.html', rows=results)
+        return render_template('index.html', rows=results, num_restaurants=num_restaurants)
 
 @app.route("/establishment/<establishment_id>")
 def establishment(establishment_id):

@@ -2,6 +2,24 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <style>
+            .search-container {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+    
+            .search-container form {
+                width: 50%;
+                display: flex;
+                align-items: center;
+            }
+    
+            .search-container input[type="text"] {
+                flex-grow: 1;
+                margin-right: 10px;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -9,7 +27,7 @@
         </nav>
         <div class="jumbotron">
             <div class="container">
-                <h1>Restaurants with the most critical violations observed in Maryland</h1>
+                <h1>{{ num_restaurants }} restaurants in Prince George's county have had {{ num_critical_violations }} or more critical health violations in the past year</h1>
             </div>
         </div>
         <form action="/" method="post">
@@ -20,7 +38,7 @@
         <h2>Search results for "{{ search_query }}"</h2>
         {% endif %}
         {% if rows %}
-        <h2>Top 10 Establishments by Inspection Count</h2>
+        <h2>The 10 Establishments In Prince George's County with the highest number of critical violations in the past 365 days</h2>
         <table class="table">
 
             <tr>
@@ -41,7 +59,7 @@
             {% endfor %}
         </table>
         {% elif not search_query %}
-        <h2>Top 10 Establishments by Inspection Count</h2>
+        <h2>The 10 Establishments In Prince George's County with the highest number of critical violations in the past 365 days</h2>
         {% endif %}
     </body>
 </html>
