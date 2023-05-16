@@ -7,6 +7,7 @@
                 display: flex;
                 justify-content: center;
                 margin-top: 20px;
+                margin-bottom: 20px;
             }
     
             .search-container form {
@@ -19,6 +20,37 @@
                 flex-grow: 1;
                 margin-right: 10px;
             }
+    
+            .text-under-search {
+                margin-top: 20px;
+            }
+
+            h2 {
+                text-align: center;
+                display: flex;
+                margin: 0 auto;
+                width: 80%;
+            }
+
+            .container {
+                text-align: center;
+                display: flex;
+                width: 100%; 
+            }
+
+            p {
+                text-align: center;
+            }
+
+            .custom-table {
+                background-color: #d8e3cf;
+            }
+
+            .time-frame {
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 10%;
+            }
         </style>
     </head>
     <body>
@@ -27,20 +59,32 @@
         </nav>
         <div class="jumbotron">
             <div class="container">
-                <h1>{{ num_restaurants }} restaurants in Prince George's county have had {{ num_critical_violations }} or more critical health violations in the past year</h1>
+                <h1>{{ num_establishments }} restaurants in Prince George's county have had 1 or more critical health violations in the past {{ time_frame }}.</h1>
+            </div>
+            <div class="time-frame">
+                <form action="/" method="get">
+                    <select name="time_frame">
+                        <option value="30">Past 30 days</option>
+                        <option value="60">Past 60 days</option>
+                        <option value="90">Past 90 days</option>
+                        <option value="180">Past 6 months</option>
+                        <option value="365">Past 1 year</option>
+                    </select>
+                    <button type="submit">Select Time Frame</button>
+                </form>
             </div>
         </div>
-        <form action="/" method="post">
-            <input type="text" name="search_query" placeholder="Search by name, owner, zip, or address" style="width:20%;">
-            <button type="submit">Search</button>
-        </form>
-        {% if search_query %}
-        <h2>Search results for "{{ search_query }}"</h2>
-        {% endif %}
-        {% if rows %}
-        <h2>The 10 Establishments In Prince George's County with the highest number of critical violations in the past 365 days</h2>
-        <table class="table">
-
+        <p>See how your favorite - or least favorite - restaurants are doing</p>
+        <div class="search-container">
+            <form action="/" method="post">
+                <input type="text" name="search_query" placeholder="Search by name, owner, zip, or address">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        {% if search_results %}
+    <h2>Search Results</h2>
+    <div class="table-container">
+        <table class="table custom-table">
             <tr>
                 <th class="text-wrap">Establishment ID</th>
                 <th class="text-wrap">Name</th>
@@ -48,18 +92,20 @@
                 <th class="text-wrap">Zip</th>
                 <th class="text-wrap">Owner</th>
             </tr>
-            {% for row in rows %}
-            <tr>
-                <td><a href="{{ url_for('establishment', establishment_id=row[0]) }}">{{ row[0] }}</a></td>
-                <td>{{ row[1] }}</td>
-                <td>{{ row[2] }}</td>
-                <td>{{ row[3] }}</td>
-                <td>{{ row[4] }}</td>
-            </tr>
+            {% for row in search_results %}
+                <tr>
+                    <td><a href="{{ url_for('establishment', establishment_id=row[0]) }}">{{ row[0] }}</a></td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                </tr>
             {% endfor %}
         </table>
-        {% elif not search_query %}
-        <h2>The 10 Establishments In Prince George's County with the highest number of critical violations in the past 365 days</h2>
+    </div>
+{% endif %}
+        {% if search_query %}
+        <h2>Search results for "{{ search_query }}"</h2>
         {% endif %}
     </body>
 </html>

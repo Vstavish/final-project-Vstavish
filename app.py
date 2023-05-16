@@ -20,6 +20,7 @@ def index():
             ORDER BY count DESC
             """
             cursor = conn.execute(query, (search_query,))
+
         elif len(search_query) == 4 and search_query.isdigit():
             # Search by establishment ID
             query = """
@@ -39,10 +40,10 @@ def index():
             GROUP BY establishment_id
             ORDER BY count DESC
             """
-            cursor = conn.execute(query, ('%'+search_query+'%', '%'+search_query+'%'))
-        results = cursor.fetchall()
+            cursor = conn.execute(query, ('%' + search_query + '%', '%' + search_query + '%'))
+        search_results = cursor.fetchall()
         conn.close()
-        return render_template('index.html', rows=results, search_query=search_query)
+        return render_template('index.html', search_results=search_results, search_query=search_query)
     else:
         # Show the default index page
         conn = sqlite3.connect('inspections.db')
@@ -50,21 +51,34 @@ def index():
         past_date = datetime.now() - timedelta(days=365)
         past_date_str = past_date.strftime('%Y-%m-%d')
 
-        query = """
+        # Retrieve the top 10 restaurants with the most critical violations in the past 365 days
+        top_restaurants_query = """
         SELECT establishment_id, name, COUNT(*) AS count, zip, owner
         FROM inspections
         WHERE inspection_results LIKE '%critical violations observed%'
         AND inspection_date >= ?
         GROUP BY establishment_id
+        HAVING COUNT(*) >= 1
         ORDER BY count DESC
         LIMIT 10;
         """
+        top_restaurants_cursor = conn.execute(top_restaurants_query, (past_date_str,))
+        top_restaurants = top_restaurants_cursor.fetchall()
 
-        cursor = conn.execute(query, (past_date_str,))
-        results = cursor.fetchall()
-        num_restaurants = len(results)
+        # Retrieve all establishment IDs with 1 or more critical violations in the past 60 days
+        establishments_query = """
+        SELECT DISTINCT establishment_id
+        FROM inspections
+        WHERE inspection_results LIKE '%critical violations observed%'
+        AND inspection_date >= ?
+        """
+        establishments_cursor = conn.execute(establishments_query, (past_date_str,))
+        establishment_ids = [row[0] for row in establishments_cursor.fetchall()]
+
         conn.close()
-        return render_template('index.html', rows=results, num_restaurants=num_restaurants)
+
+        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), establishment_ids=establishment_ids)
+
 
 @app.route("/establishment/<establishment_id>")
 def establishment(establishment_id):

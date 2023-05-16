@@ -2,44 +2,52 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <style>
+            .table-container .custom-table {
+                background-color: #d8e3cf;
+            }
+        </style>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="/">Food inspections and violations in Maryland</a>
         </nav>
         <div class="jumbotron">
-          <div class="container">
-              <h1>Establishment {{ establishment_id }}</h1>
-              <p>This establishment has had {{ num_inspections }} inspections since 2016, of which {{ num_critical_violations }} resulted in critical violations, {{ num_non_compliant }} resulted in non compliant violations, {{ num_compliant }} had compliant results, {{ num_outstanding }} had outstanding results and {{ num_completed }} were marked as completed inspections. There were {{ null_results }} inspections that have no documented results. </p>
-          </div>
-      </div>
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="text-wrap">Name</th>
-        <th class="text-wrap">Category</th>
-        <th class="text-wrap">Inspection Date</th>
-        <th class="text-wrap">Inspection Results</th>
-        <th class="text-wrap">ZIP</th>
-        <th class="text-wrap">Address</th>
-        <th class="text-wrap">Owner</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for row in rows %}
-      <tr>
-        <td>{{ row[0] }}</td>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
-        <td>{{ row[4] }}</td>
-        <td>{{ row[5] }}</td>
-        <td>{{ row[6] }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>  
-</body>
+            <div class="container">
+                <h1>Establishment {{ establishment_id }}</h1>
+                <p>This establishment has had {{ num_inspections }} inspections since 2016, of which {{ num_critical_violations }} resulted in critical violations, {{ num_non_compliant }} resulted in non compliant violations, {{ num_compliant }} had compliant results, {{ num_outstanding }} had outstanding results and {{ num_completed }} were marked as completed inspections. There were {{ null_results }} inspections that have no documented results. </p>
+            </div>
+        </div>
+        <div class="table-container">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th class="text-wrap">Name</th>
+                        <th class="text-wrap">Category</th>
+                        <th class="text-wrap">Inspection Date</th>
+                        <th class="text-wrap">Inspection Results</th>
+                        <th class="text-wrap">ZIP</th>
+                        <th class="text-wrap">Address</th>
+                        <th class="text-wrap">Owner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                        <td>{{ row[5] }}</td>
+                        <td>{{ row[6] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
 </html>
+
 
 
