@@ -6,9 +6,9 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    if request.method == "POST":
-        # Handle the search query
-        search_query = request.form["search_query"]
+    # Handle the form submission
+    if request.method == 'POST':
+        search_query = request.form['search_query']
         conn = sqlite3.connect('inspections.db')
         if len(search_query) == 5 and search_query.isdigit():
             # Search by zip code
@@ -43,7 +43,8 @@ def index():
             cursor = conn.execute(query, ('%' + search_query + '%', '%' + search_query + '%'))
         search_results = cursor.fetchall()
         conn.close()
-        return render_template('index.html', search_results=search_results, search_query=search_query)
+        return render_template('index.html', search_query=search_query, search_results=search_results)
+    
     else:
         # Show the default index page
         conn = sqlite3.connect('inspections.db')
@@ -77,7 +78,7 @@ def index():
 
         conn.close()
 
-        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), establishment_ids=establishment_ids)
+        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), establishment_ids=establishment_ids, time_frame=past_date_str)
 
 
 @app.route("/establishment/<establishment_id>")
