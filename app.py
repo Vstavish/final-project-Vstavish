@@ -165,7 +165,7 @@ def api_inspections():
 
     # Fetch the inspection data from your database
     # Replace this with your actual query to retrieve the inspection data
-    query = "SELECT date, count FROM inspections"
+    query = "SELECT inspection_date, COUNT(*) AS total_inspections FROM inspections GROUP BY inspection_date ORDER BY inspection_date;"
     cursor.execute(query)
     data = cursor.fetchall()
 
