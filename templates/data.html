@@ -1,13 +1,12 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-        
-        <style>
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <style>
             .navbar-divider {
                 border: none;
                 border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -34,8 +33,7 @@
 
                 .btn-primary {
                 justify-content: center;
-                margin-top: 25%;
-                margin-bottom: 40%;
+                margin-top: 5%;
                 margin-left: 42%;
                 margin-right: 40%;
                 background-color: #ccd7c3;
@@ -66,8 +64,13 @@
                 }
 
                 .table-container a {
-                color: #007bff;
                 text-decoration: none;
+                }
+
+                .container {
+                margin-top: 20px;
+                text-align: center;
+
                 }
         </style>
     </head>
@@ -84,39 +87,12 @@
             </button>
             </nav>
 
-        <a href="/download" class="btn btn-primary">Download Inspections Data</a>
+            <div class="container">        
+                <h1>All Prince George's County food inspection data from</h1>
+                <h1>May 16, 2016 - March 03, 2023</h1>
+            </div>
 
-        <div class="table-container">
-            <table id="data-table" class="table custom-table">
-                <tr>
-                    <th class="text-wrap">Establishment ID</th>
-                    <th class="text-wrap">Name</th>
-                    <th class="text-wrap">Category</th>
-                    <th class="text-wrap">Inspection Date</th>
-                    <th class="text-wrap">Inspection Results</th>
-                    <th class="text-wrap">ZIP</th>
-                    <th class="text-wrap">Address</th>
-                    <th class="text-wrap">Owner</th>
-                </tr>
-                {% for row in data %}
-                <tr>
-                    <td><a href="{{ url_for('establishment', establishment_id=row[0]) }}">{{ row[0] }}</a></td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
-                    <td>{{ row[4] }}</td>
-                    <td>{{ row[5] }}</td>
-                    <td>{{ row[6] }}</td>
-                    <td>{{ row[7] }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#data-table').DataTable();
-            });
-        </script>
+        <a href="/download" class="btn btn-primary">Download Inspections Data as CSV</a>
+
     </body>
-</html>
+    </html>
