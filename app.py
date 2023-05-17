@@ -117,7 +117,11 @@ def establishment(establishment_id):
         num_outstanding = sum('compliance schedule - outstanding' in r[3].lower() for r in rows)
         num_completed = sum('compliance schedule - completed' in r[3].lower() for r in rows)
         null_results = sum('----' in r[3].lower() for r in rows)
-        return render_template('establishment.html', establishment_id=establishment_id, name=name, category=category, rows=rows, zip_code=zip_code, address=address, owner=owner, num_inspections=num_inspections, num_critical_violations=num_critical_violations, num_compliant=num_compliant, num_non_compliant=num_non_compliant, null_results=null_results)
+        num_closed = sum('facility closed' in r[3].lower() for r in rows)
+        num_reopened = sum('facility reopened' in r[3].lower() for r in rows)
+        num_compliant_health_risk = sum('compliant - health risk' in r[3].lower() for r in rows)
+        num_no_critical_violations = sum('no critical violations observed' in r[3].lower() for r in rows)
+        return render_template('establishment.html', establishment_id=establishment_id, name=name, category=category, rows=rows, zip_code=zip_code, address=address, owner=owner, num_inspections=num_inspections, num_critical_violations=num_critical_violations, num_compliant=num_compliant, num_non_compliant=num_non_compliant, null_results=null_results, num_outstanding=num_outstanding, num_completed=num_completed, num_no_critical_violations=num_no_critical_violations, num_compliant_health_risk=num_compliant_health_risk, num_reopened=num_reopened, num_closed=num_closed)
 
 @app.route("/violations")
 def violations():

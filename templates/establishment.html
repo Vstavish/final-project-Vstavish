@@ -52,18 +52,58 @@
             <div class="container">
                 <h1>Establishment {{ establishment_id }} - {{ name }}</h1>
                 <p>
-                    This establishment has had {{ num_inspections }} reported inspections since 2016, of which 
-                    {% if num_critical_violations == 0 %}
-                        zero resulted in critical violations,
+                    This establishment has had {{ num_inspections }} reported inspections since 2016, of which
+                    {% if num_critical_violations > 0 %}
+                      {{ num_critical_violations }} resulted in critical violations,
                     {% else %}
-                        {{ num_critical_violations }} resulted in critical violations,
+                      0 resulted in critical violations,
                     {% endif %}
-                    {{ num_non_compliant }} resulted in non-compliant violations,
-                    {{ num_compliant }} had compliant results,
-                    {{ num_outstanding }} had outstanding results, 
-                    and {{ num_completed }} were marked as completed inspections.
-                    There were {{ null_results }} inspections that have no documented results.
-                </p>
+                    {% if num_non_compliant > 0 %}
+                      {{ num_non_compliant }} resulted in non-compliant violations,
+                    {% else %}
+                      0 resulted in non-compliant violations,
+                    {% endif %}
+                    {% if num_compliant > 0 %}
+                      {{ num_compliant }} had compliant results,
+                    {% else %}
+                      0 had compliant results,
+                    {% endif %}
+                    {% if num_outstanding > 0 %}
+                      {{ num_outstanding }} had outstanding results,
+                    {% else %}
+                      0 had outstanding results,
+                    {% endif %}
+                    {% if num_completed > 0 %}
+                      {{ num_completed }} were marked as completed inspections,
+                    {% else %}
+                      0 were marked as completed inspections,
+                    {% endif %}
+                    {% if null_results > 0 %}
+                      There were {{ null_results }} inspections with no documented results,
+                    {% else %}
+                      There were 0 inspections with no documented results,
+                    {% endif %}
+                    {% if num_closed > 0 %}
+                      {{ num_closed }} resulted in facility closure,
+                    {% else %}
+                      0 resulted in facility closure,
+                    {% endif %}
+                    {% if num_reopened > 0 %}
+                      {{ num_reopened }} resulted in facility reopening,
+                    {% else %}
+                      0 resulted in facility reopening,
+                    {% endif %}
+                    {% if num_compliant_health_risk > 0 %}
+                      {{ num_compliant_health_risk }} had compliant results with health risk,
+                    {% else %}
+                       0 had compliant results with health risk,
+                    {% endif %}
+                    {% if num_no_critical_violations > 0 %}
+                      {{ num_no_critical_violations }} had no critical violations observed,
+                    {% else %}
+                      0 had no critical violations observed,
+                    {% endif %}
+                  </p>                  
             </div>
         </div>
         <div class="table-container">
