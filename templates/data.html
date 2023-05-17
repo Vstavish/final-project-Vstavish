@@ -95,8 +95,11 @@
                 <tr>
                     <th class="text-wrap">Establishment ID</th>
                     <th class="text-wrap">Name</th>
-                    <th class="text-wrap">Total recorded critical violations</th>
-                    <th class="text-wrap">Zip</th>
+                    <th class="text-wrap">Category</th>
+                    <th class="text-wrap">Inspection Date</th>
+                    <th class="text-wrap">Inspection Results</th>
+                    <th class="text-wrap">ZIP</th>
+                    <th class="text-wrap">Address</th>
                     <th class="text-wrap">Owner</th>
                 </tr>
                 {% for row in data %}
@@ -106,6 +109,9 @@
                     <td>{{ row[2] }}</td>
                     <td>{{ row[3] }}</td>
                     <td>{{ row[4] }}</td>
+                    <td>{{ row[5] }}</td>
+                    <td>{{ row[6] }}</td>
+                    <td>{{ row[7] }}</td>
                 </tr>
                 {% endfor %}
             </table>
