@@ -81,50 +81,49 @@
                 <li><a class="navbar-brand" href="/">Food inspections and violations in Maryland</a></li>
                 <li class="nav-item"><a class="navbar-brand" href="/about">About</a></li>
                 <li class="nav-item"><a class="navbar-brand" href="/timeline">Food inspections over time</a></li>
-                <li class="nav-item"><a class="navbar-brand" href="/data_page">Download the data</a></li>
+                <li class="nav-item"><a class="navbar-brand" href="/data">Download the data</a></li>
             </ul>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             </nav>
-        <div class="jumbotron">
             <div class="jumbotron">
                 <div class="container">
-                    <h1>{{ num_establishments }} restaurants in Prince George's county have had 1 or more critical health violations in the last 60 days.</h1>
+                    <h1><a href="{{ url_for('violations') }}">{{ num_establishments }} restaurants </a> in Prince George's county have had 1 or more critical health violations in the last 60 days.</h1>
                 </div>
-                <a href="{{ url_for('violations') }}">{{ num_establishments }} restaurants</a>
             </div>
-        <p>See how your favorite - or least favorite - restaurants are doing</p>
+        <p>See how your favorite (or least favorite) restaurants are doing</p>
         <div class="search-container">
-            <form action="/" method="post">
+            <form method="POST" action="/">
                 <input type="text" name="search_query" placeholder="Search by name, owner, zip, or address">
                 <button type="submit">Search</button>
             </form>
         </div>
-        {% if search_results %}
-        {% endif %}
         {% if search_query %}
             <h2>Search results for "{{ search_query }}"</h2>
         {% endif %}
-    <div class="table-container">
-        <table class="table custom-table">
-            <tr>
-                <th class="text-wrap">Establishment ID</th>
-                <th class="text-wrap">Name</th>
-                <th class="text-wrap">Total recorded critical violations</th>
-                <th class="text-wrap">Zip</th>
-                <th class="text-wrap">Owner</th>
-            </tr>
-            {% for row in search_results %}
+        <div class="table-container">
+            {% if search_results %}
+            <table class="table custom-table">
                 <tr>
-                    <td><a href="{{ url_for('establishment', establishment_id=row[0]) }}">{{ row[0] }}</a></td>
-                    <td>{{ row[1] }}</td>
-                    <td>{{ row[2] }}</td>
-                    <td>{{ row[3] }}</td>
-                    <td>{{ row[4] }}</td>
+                    <th class="text-wrap">Establishment ID</th>
+                    <th class="text-wrap">Name</th>
+                    <th class="text-wrap">Total recorded critical violations</th>
+                    <th class="text-wrap">Zip</th>
+                    <th class="text-wrap">Owner</th>
                 </tr>
+                {% for row in search_results %}
+                    <tr>
+                        <td><a href="{{ url_for('establishment', establishment_id=row[0]) }}">{{ row[0] }}</a></td>
+                        <td>{{ row[1] }}</td>
+                        <td>{{ row[2] }}</td>
+                        <td>{{ row[3] }}</td>
+                        <td>{{ row[4] }}</td>
+                    </tr>
                 {% endfor %}
             </table>
-            </div>
-    </body>
+            {% endif %}
+        </div>
+    </div>
+</body>
 </html>

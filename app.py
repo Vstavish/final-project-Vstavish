@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, send_file
 import sqlite3
 from datetime import datetime, timedelta
 import json
+import csv
 
 app = Flask(__name__)
 
@@ -42,9 +43,13 @@ def index():
             ORDER BY count DESC
             """
             cursor = conn.execute(query, ('%' + search_query + '%', '%' + search_query + '%'))
+        
         search_results = cursor.fetchall()
         conn.close()
-        return render_template('index.html', search_query=search_query, search_results=search_results)
+        
+        has_search_results = len(search_query) > 0 and len(search_results) > 0
+        
+        return render_template('index.html', search_query=search_query, search_results=search_results, has_search_results=has_search_results)
     
     else:
         # Show the default index page
@@ -79,7 +84,11 @@ def index():
 
         conn.close()
 
-        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), time_frame=past_date_str)
+        # Initialize search_results with an empty list
+        search_results = []
+
+        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), time_frame=past_date_str, search_results=search_results)
+
 
 
 @app.route("/establishment/<establishment_id>")
@@ -139,22 +148,53 @@ def about():
 def timeline():
     return render_template('timeline.html')
 
-@app.route("/data_page")
-def data_page():
+@app.route('/data')
+def data():
     conn = sqlite3.connect('inspections.db')
-    return render_template('download.html')
+    cursor = conn.cursor()
+    query = """
+        SELECT establishment_id, name, category, inspection_date, inspection_results, zip, address_line_1, owner
+        FROM inspections
+    """
+    cursor.execute(query)
+    data = cursor.fetchall()
+    conn.close()
+
+    return render_template('data.html', data=data)
 
 @app.route("/download")
 def download():
     # Path to the inspections.db file
     db_file_path = "inspections.db"
     
-    # Return the file as a response for download
-    return send_file(db_file_path, as_attachment=True)
+    # Open a connection to the database
+    conn = sqlite3.connect(db_file_path)
+    cursor = conn.cursor()
+
+    # Execute a query to fetch the data from the inspections table
+    query = "SELECT * FROM inspections"
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    # Close the database connection
+    conn.close()
+
+    # Create a temporary file to store the CSV data
+    temp_file = "temp_data.csv"
+
+    # Write the data to the temporary CSV file
+    with open(temp_file, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(data)
+
+    # Return the temporary CSV file as a response for download
+    return send_file(temp_file, as_attachment=True, download_name="inspections.csv", mimetype="text/csv")
 
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
+
+
 
 
 

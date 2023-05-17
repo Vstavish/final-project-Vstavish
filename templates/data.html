@@ -1,0 +1,120 @@
+<!-- about.html -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+    
+    .navbar-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 0.5rem 0;
+    }
+
+    nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    }
+
+    nav ul li {
+    display: inline;
+    }
+
+    nav ul li a {
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    }
+
+    .btn-primary {
+        justify-content: center;
+        margin-top: 25%;
+        margin-bottom: 40%;
+        margin-left: 42%;
+        margin-right: 40%;
+        background-color: #ccd7c3;
+    }
+
+    .table-container .custom-table {
+                background-color: #ccd7c3;
+            }
+            <style>
+        /* Your existing CSS styles here */
+
+        /* Table styles */
+        .table-container {
+            background-color: #ccd7c3;
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .table-container table {
+            width: 100%;
+        }
+
+        .table-container th,
+        .table-container td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-container th {
+            background-color: #f8f9fa;
+        }
+
+        .table-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+
+</style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ul>
+            <li><a class="navbar-brand" href="/">Food inspections and violations in Maryland</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/about">About</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/timeline">Food inspections over time</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/data">Download the data</a></li>
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        </nav>
+
+        <a href="/download" class="btn btn-primary">Download Inspections Data</a>
+
+        <div class="table-container">
+            <table class="table custom-table">
+                <tr>
+                    <th class="text-wrap">Establishment ID</th>
+                    <th class="text-wrap">Name</th>
+                    <th class="text-wrap">Total recorded critical violations</th>
+                    <th class="text-wrap">Zip</th>
+                    <th class="text-wrap">Owner</th>
+                </tr>
+                {% for row in data %}
+                <tr>
+                    <td><a href="{{ url_for('establishment', establishment_id=row[0]) }}">{{ row[0] }}</a></td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                    <td>{{ row[4] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#data-table').DataTable();
+            });
+        </script>
+</body>
+</html>

@@ -33,6 +33,13 @@
     color: #fff;
     }
 
+    .flourish-embed flourish-chart {
+      width: 2%;
+      height: 2%;
+      margin: 0 auto;
+      display: flex;
+    }
+
 </style>
 </head>
 <body>
@@ -41,57 +48,15 @@
             <li><a class="navbar-brand" href="/">Food inspections and violations in Maryland</a></li>
             <li class="nav-item"><a class="navbar-brand" href="/about">About</a></li>
             <li class="nav-item"><a class="navbar-brand" href="/timeline">Food inspections over time</a></li>
-            <li class="nav-item"><a class="navbar-brand" href="/data_page">Download the data</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/data">Download the data</a></li>
         </ul>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         </nav>
-
-    <canvas id="inspectionChart"></canvas>
-
-    <script>
-    const createLineChart = async () => {
-            const inspectionData = await fetch('/api/inspections').then(response => response.json());
-            const ctx = document.getElementById('inspectionChart').getContext('2d');
-      
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: inspectionData.map(item => item.date), // Array of inspection dates
-            datasets: [
-              {
-                label: 'Number of Inspections',
-                data: inspectionData.map(item => item.count), // Array of inspection counts
-                backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                borderColor: 'rgba(0, 123, 255, 1)',
-                borderWidth: 1
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              x: {
-                display: true,
-                title: {
-                  display: true,
-                  text: 'Date'
-                }
-              },
-              y: {
-                display: true,
-                title: {
-                  display: true,
-                  text: 'Number of Inspections'
-                }
-              }
-            }
-          }
-        });
-      };
-      
-      createLineChart();
-    </script>      
+        <br>
+        <br>
+        <br>
+        <div class="flourish-embed flourish-chart" data-src="visualisation/13791759"><script src="https://public.flourish.studio/resources/embed.js"></script></div>     
 </body>
 </html>
