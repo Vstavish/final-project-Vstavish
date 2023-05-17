@@ -1,29 +1,101 @@
+<!-- about.html -->
 <!doctype html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+    
+    .navbar-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 0.5rem 0;
+    }
+
+    nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    }
+
+    nav ul li {
+    display: inline;
+    }
+
+    nav ul li a {
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    }
+
+    h2 {
+    text-align: center;
+    display: flex;
+    margin: 0 auto;
+    width: 80%;
+    }
+
+    p {
+    width: 60%;
+    display: flex;
+    margin: 0 auto;
+    }
+
+    .description-container {
+        background-color: #ccd7c3;
+        width: 70%;
+        margin: 0 auto;
+
+    }
+
+</style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">Food inspections and violations in Maryland</a>
+        <ul>
+            <li><a class="navbar-brand" href="/">Food inspections and violations in Maryland</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/about">About</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/timeline.html">Food inspections over time</a></li>
+            <li class="nav-item"><a class="navbar-brand" href="/download.html">Download the data</a></li>
+        </ul>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/about.html">About food inspections in Prince George's County</a>
-                </li>
-                <hr class="navbar-divider">
-                <li class="nav-item">
-                    <a class="nav-link" href="/timeline.html">Food inspections over time</a>
-                </li>
-                <hr class="navbar-divider">
-                <li class="nav-item">
-                    <a class="nav-link" href="/download.html">Download the data</a>
-                </li>
-            </ul>
-        </div> 
         </nav>
+
+    <div class="description-container">
+        <p>
+            <br>
+            <br>
+            The Prince George's County Health Department responds to inquiries concerning any licensed or unlicensed food service facilities or operations as a part of its Food Protection/Policy Program. </p>
+            <br>
+            <br>
+           <p> Facilities liable to routine inspections include restaurants, grocery stores, catering facilities, theater and stadium concessions, public and private schools, penal institutions, shelters and senior feeding programs; inspections for temporary or seasonal food operations including vending locations, carnivals, fairs, festivals and farmers markets; and inspections for mobile food units. These include both licensed or unlicensed food service facilities. </p>
+
+           <br>
+           <br>
+
+           <p> The county shows comprehensive, monitoring, and complaint investigations within the publicly available data. </p>
+           <br>
+           <br>
+           <p> <b>Comprehensive inspections </b>&nbsp;are thorough evaluation of the sanitation, maintenance, and food handling for the facility. </p> 
+           <br>
+           <br>
+           <p> <b>Monitoring inspections </b>&nbsp;focus on critical food temperatures, equipment temperatures, general food handling and cleanliness practices. </p>
+           <br>
+           <br>
+           <p> <b> Reinspections </b>&nbsp;are conducted to determine compliance with non-critical violations that require time to correct and to confirm that the correction of previously cited critical violations has been maintained.</p>
+           <br>
+           <br>
+           <p> <b> Closure </b>&nbsp;indicates the temporary suspension of the food facility license due to an immediate health hazard that cannot be corrected immediately. This can also be the result of failure to correct a non-critical violation within the specified time period, failure to comply with health department requirements, and/or operating without a health department permit.</p> 
+           <br>
+           <br>
+           <p> <b>Prince George's County claims this data is updated daily, but as of May 18, 2023, this dataset was last updated on March 3, 2023 </b> </p>
+
+    </div>
 </body>
 </html>

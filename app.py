@@ -48,11 +48,11 @@ def index():
     else:
         # Show the default index page
         conn = sqlite3.connect('inspections.db')
-        # Calculate the date 365 days ago from today
-        past_date = datetime.now() - timedelta(days=365)
+        # Calculate the date 60 days ago from today
+        past_date = datetime.now() - timedelta(days=60)
         past_date_str = past_date.strftime('%Y-%m-%d')
 
-        # Retrieve the top 10 restaurants with the most critical violations in the past 365 days
+        # Retrieve the top 10 restaurants with the most critical violations in the past 60 days
         top_restaurants_query = """
         SELECT establishment_id, name, COUNT(*) AS count, zip, owner
         FROM inspections
@@ -78,7 +78,7 @@ def index():
 
         conn.close()
 
-        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), establishment_ids=establishment_ids, time_frame=past_date_str)
+        return render_template('index.html', rows=top_restaurants, num_restaurants=len(top_restaurants), num_establishments=len(establishment_ids), time_frame=past_date_str)
 
 
 @app.route("/establishment/<establishment_id>")
@@ -108,6 +108,42 @@ def establishment(establishment_id):
         num_completed = sum('compliance schedule - completed' in r[3].lower() for r in rows)
         null_results = sum('----' in r[3].lower() for r in rows)
         return render_template('establishment.html', establishment_id=establishment_id, name=name, category=category, rows=rows, zip_code=zip_code, address=address, owner=owner, num_inspections=num_inspections, num_critical_violations=num_critical_violations, num_compliant=num_compliant, num_non_compliant=num_non_compliant, null_results=null_results)
+
+@app.route("/violations")
+def violations():
+    conn = sqlite3.connect('inspections.db')
+    # Retrieve all restaurants with 1 or more critical violations in the past 60 days
+    query = """
+    SELECT establishment_id, name, COUNT(*) AS count, zip, owner
+    FROM inspections
+    WHERE inspection_results LIKE '%critical violations observed%'
+    AND inspection_date >= ?
+    GROUP BY establishment_id
+    HAVING COUNT(*) >= 1
+    ORDER BY establishment_id;
+    """
+    past_date = datetime.now() - timedelta(days=60)
+    past_date_str = past_date.strftime('%Y-%m-%d')
+    cursor = conn.execute(query, (past_date_str,))
+    rows = cursor.fetchall()
+    conn.close()
+    return render_template('violations.html', rows=rows)
+
+@app.route("/about")
+def about():
+    conn = sqlite3.connect('inspections.db')
+    return render_template('about.html')
+
+@app.route("/timeline")
+def timeline():
+    conn = sqlite3.connect('inspections.db')
+    return render_template('timeline.html')
+
+@app.route("/download")
+def download():
+    conn = sqlite3.connect('inspections.db')
+    return render_template('download.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
