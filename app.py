@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3
 from datetime import datetime, timedelta
+import json
 
 app = Flask(__name__)
 
@@ -136,13 +137,43 @@ def about():
 
 @app.route("/timeline")
 def timeline():
-    conn = sqlite3.connect('inspections.db')
     return render_template('timeline.html')
 
 @app.route("/download")
 def download():
     conn = sqlite3.connect('inspections.db')
     return render_template('download.html')
+
+def fetchInspectionData():
+    conn = sqlite3.connect('inspections.db')
+    cursor = conn.cursor()
+    
+    # Fetch the inspection data from your database
+    # Replace this with your actual query to retrieve the inspection data
+    query = "SELECT date, count FROM inspections"
+    cursor.execute(query)
+    data = cursor.fetchall()
+    
+    conn.close()
+    
+    return data
+
+@app.route("/api/inspections")
+def api_inspections():
+    conn = sqlite3.connect('inspections.db')
+    cursor = conn.cursor()
+
+    # Fetch the inspection data from your database
+    # Replace this with your actual query to retrieve the inspection data
+    query = "SELECT date, count FROM inspections"
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    conn.close()
+
+    # Convert the data to a JSON response
+    response = json.dumps([{"date": row[0], "count": row[1]} for row in data])
+    return Response(response, content_type="application/json")
 
 
 if __name__ == "__main__":

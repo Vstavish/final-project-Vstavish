@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
     
     .navbar-divider {
@@ -46,5 +47,51 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         </nav>
+
+    <canvas id="inspectionChart"></canvas>
+
+    <script>
+    const createLineChart = async () => {
+            const inspectionData = await fetch('/api/inspections').then(response => response.json());
+            const ctx = document.getElementById('inspectionChart').getContext('2d');
+      
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: inspectionData.map(item => item.date), // Array of inspection dates
+            datasets: [
+              {
+                label: 'Number of Inspections',
+                data: inspectionData.map(item => item.count), // Array of inspection counts
+                backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                borderColor: 'rgba(0, 123, 255, 1)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              x: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Date'
+                }
+              },
+              y: {
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Number of Inspections'
+                }
+              }
+            }
+          }
+        });
+      };
+      
+      createLineChart();
+    </script>      
 </body>
 </html>
