@@ -171,8 +171,14 @@ def download():
     conn = sqlite3.connect(db_file_path)
     cursor = conn.cursor()
 
+<<<<<<< HEAD
     # Execute a query to fetch the data from the inspections table
     query = "SELECT * FROM inspections"
+=======
+    # Fetch the inspection data from your database
+    # Replace this with your actual query to retrieve the inspection data
+    query = "SELECT inspection_date, COUNT(*) AS total_inspections FROM inspections GROUP BY inspection_date ORDER BY inspection_date;"
+>>>>>>> 80816ea7756e621305dfa4a47095e142e75f3a0a
     cursor.execute(query)
     data = cursor.fetchall()
 
