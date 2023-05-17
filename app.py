@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 import sqlite3
 from datetime import datetime, timedelta
 import json
@@ -139,41 +139,18 @@ def about():
 def timeline():
     return render_template('timeline.html')
 
-@app.route("/download")
-def download():
+@app.route("/data_page")
+def data_page():
     conn = sqlite3.connect('inspections.db')
     return render_template('download.html')
 
-def fetchInspectionData():
-    conn = sqlite3.connect('inspections.db')
-    cursor = conn.cursor()
+@app.route("/download")
+def download():
+    # Path to the inspections.db file
+    db_file_path = "inspections.db"
     
-    # Fetch the inspection data from your database
-    # Replace this with your actual query to retrieve the inspection data
-    query = "SELECT date, count FROM inspections"
-    cursor.execute(query)
-    data = cursor.fetchall()
-    
-    conn.close()
-    
-    return data
-
-@app.route("/api/inspections")
-def api_inspections():
-    conn = sqlite3.connect('inspections.db')
-    cursor = conn.cursor()
-
-    # Fetch the inspection data from your database
-    # Replace this with your actual query to retrieve the inspection data
-    query = "SELECT date, count FROM inspections"
-    cursor.execute(query)
-    data = cursor.fetchall()
-
-    conn.close()
-
-    # Convert the data to a JSON response
-    response = json.dumps([{"date": row[0], "count": row[1]} for row in data])
-    return Response(response, content_type="application/json")
+    # Return the file as a response for download
+    return send_file(db_file_path, as_attachment=True)
 
 
 if __name__ == "__main__":
